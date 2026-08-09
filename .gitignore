@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+archive/
+*.egg-info/
+dist/
+build/
+.l2/
+*.db
+record.json
+*.content
+.incoming/
+.adv/
+.adv2/
+_inverba_public_tree/
+.hypothesis/
+# legacy (pre-rename) artifacts, still ignored
+_tessera_public_tree/

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inverba"
+version = "0.1.0"
+description = "Sovereign, verifiable, swarm-distributed web extraction — one install for the whole toolkit"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Harrington Crest Holdings LLC" }]
+
+# The single public install. Pulls ONLY the open-core engine (Apache-2.0). The
+# swarm, pro, and cloud packages are proprietary and held back — they are NOT
+# dependencies here and are installed separately by licensees only.
+dependencies = [
+    "inverba-core>=0.1",
+]
+
+[project.optional-dependencies]
+# Everything open, including browser rendering + MCP server + local Ollama extraction.
+all = [
+    "inverba-core[browser,mcp,temporal]>=0.1",
+]
+# NOTE: proprietary add-ons (advanced compliance, distributed corroboration,
+# hosted layer) are licensed separately and are NOT listed here — the public
+# meta package must not reference non-public package names in its metadata.
+
+[tool.setuptools]
+# Meta-package: no code of its own, just dependencies.
+packages = []

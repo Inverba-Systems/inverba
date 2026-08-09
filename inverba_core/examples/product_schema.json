@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "price": { "type": "string" },
+    "in_stock": { "type": "boolean" },
+    "description": { "type": "string" }
+  },
+  "required": ["title"]
+}
