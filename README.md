@@ -119,7 +119,16 @@ If a claim isn't in that first list, Inverba doesn't make it.
 
 Requires Python 3.10+.
 
-**From source** (works today):
+```bash
+pip install inverba
+```
+
+Published as `inverba` (the meta package) and `inverba-core` (the engine). That
+gives you the `inverba` command used in the examples above. Optional extras on the
+core: `pip install "inverba-core[temporal]"` (RFC 3161 timestamping), `[browser]`
+(JS rendering), `[mcp]` (MCP server), `[langchain]` / `[llamaindex]`.
+
+**From source** instead:
 
 ```bash
 git clone https://github.com/Inverba-Systems/inverba
@@ -128,16 +137,6 @@ python -m venv .venv
 source .venv/bin/activate     # Windows: .venv\Scripts\activate
 pip install -e ./inverba_core
 ```
-
-That gives you the `inverba` command used in the examples above. Optional extras:
-`pip install -e "./inverba_core[temporal]"` (RFC 3161 timestamping),
-`[browser]` (JS rendering), `[mcp]` (MCP server), `[langchain]` / `[llamaindex]`.
-
-**From PyPI:** a published release is coming with the first tagged version,
-under the names `inverba` (meta) and `inverba-core` (verified available on
-PyPI as of 2026-08-09, not yet reserved). *(Until then, use the source install
-above — we won't print a `pip install` command that doesn't yet resolve to this
-project.)*
 
 ## Open core
 

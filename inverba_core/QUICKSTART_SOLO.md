@@ -5,7 +5,7 @@ No swarm. No account. No API key. No cloud. One machine, 60 seconds.
 ## 0. See it work first (30 seconds, no network)
 
 ```
-pip install -e ./inverba_core   # from a repo clone; PyPI package comes with the first release
+pip install inverba
 inverba demo
 ```
 
