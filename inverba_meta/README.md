@@ -1,18 +1,20 @@
-# inverba (meta-package)
+# inverba
 
-`pip install inverba` — installs the standalone engine (`inverba-core`) and
-the trust-scored swarm layer (`inverba-swarm`) in one shot.
+`pip install inverba` installs the standalone engine (`inverba-core`): every web
+fetch cryptographically signed and offline-verifiable, with nothing to trust but
+a public key.
 
 ```bash
-pip install inverba            # engine + swarm
-pip install "inverba[all]"     # + browser rendering, MCP server, Ollama extraction
-pip install "inverba[cloud]"   # + the managed cloud services (proprietary)
+pip install inverba            # the engine
+pip install "inverba[all]"     # + browser rendering, MCP server, RFC 3161 timestamping
 ```
 
 Then:
 
 ```bash
 inverba scrape https://example.com
+inverba verify record.json
 ```
 
-That's it. See the main repo README for everything else.
+- Source & docs: https://github.com/Inverba-Systems/inverba
+- Site: https://inverba.dev

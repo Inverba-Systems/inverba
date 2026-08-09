@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "inverba"
-version = "0.1.0"
-description = "Sovereign, verifiable, swarm-distributed web extraction — one install for the whole toolkit"
+version = "0.1.1"
+description = "Sovereign, verifiable web extraction — every fetch cryptographically signed and offline-verifiable"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
@@ -26,6 +26,10 @@ all = [
 # NOTE: proprietary add-ons (advanced compliance, distributed corroboration,
 # hosted layer) are licensed separately and are NOT listed here — the public
 # meta package must not reference non-public package names in its metadata.
+
+[project.urls]
+Homepage = "https://inverba.dev"
+Repository = "https://github.com/Inverba-Systems/inverba"
 
 [tool.setuptools]
 # Meta-package: no code of its own, just dependencies.
