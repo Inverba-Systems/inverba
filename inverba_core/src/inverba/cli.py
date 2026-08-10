@@ -170,7 +170,10 @@ def verify(record_path, content, json_out):
     if content is not None:
         actual = hashlib.sha256(Path(content).read_bytes()).hexdigest()
         content_ok = (actual == record.content_hash)
-        result["content_matches"] = content_ok
+    # Always surface content status. `None` means "not checked" -- so a record
+    # separated from its .content can't be silently mistaken for fully verified
+    # (JSON callers see an explicit null instead of a missing key).
+    result["content_matches"] = content_ok
 
     if json_out:
         click.echo(json.dumps(result, indent=2))
@@ -193,6 +196,10 @@ def verify(record_path, content, json_out):
         click.secho("  content    matches the signed hash", fg="green")
     elif content_ok is False:
         click.secho("  content    DOES NOT MATCH — this record does not describe this data", fg="red")
+    else:
+        click.secho("  content    NOT CHECKED — this confirms the signature only, not that the", fg="yellow")
+        click.secho("             data matches. Pass --content <file> (or keep the record's", fg="yellow")
+        click.secho("             .content sibling next to it) to verify the content too.", fg="yellow")
 
     n = result.get("corroboration_count", 0)
     if n:

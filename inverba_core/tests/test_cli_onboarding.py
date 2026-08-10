@@ -110,6 +110,33 @@ def test_verify_json_output_is_machine_readable():
         assert payload["primary_valid"] is True
 
 
+def test_verify_without_content_warns_not_checked():
+    """A record separated from its .content must not read as fully verified: the
+    signature is valid, but verify loudly flags that content was NOT CHECKED so the
+    downgrade to signature-only can't happen silently."""
+    runner = CliRunner()
+    with runner.isolated_filesystem() as tmp:
+        rec = write_record(Path(tmp))
+        (Path(tmp) / "record.content").unlink()      # separate record from its content
+        result = runner.invoke(main, ["verify", str(rec)])
+        assert result.exit_code == 0
+        assert "VALID" in result.output
+        assert "NOT CHECKED" in result.output
+
+
+def test_verify_json_always_reports_content_matches():
+    """--json-out must always include content_matches (null when unchecked), so a
+    machine consumer never mistakes a missing key for a content pass."""
+    runner = CliRunner()
+    with runner.isolated_filesystem() as tmp:
+        rec = write_record(Path(tmp))
+        (Path(tmp) / "record.content").unlink()
+        result = runner.invoke(main, ["verify", str(rec), "--json-out"])
+        payload = json.loads(result.output)
+        assert "content_matches" in payload
+        assert payload["content_matches"] is None
+
+
 # ---- notary: off by default, never silent ----
 
 def test_notary_status_defaults_to_disabled(tmp_path, monkeypatch):
