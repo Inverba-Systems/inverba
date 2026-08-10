@@ -107,6 +107,12 @@ not alter stored records. This is called out as a known gap, not glossed.
 
 ## Notary SSRF posture (hosted notary — NOT production-ready yet)
 
+A word on the term: Inverba's "notary" (and any talk of "notarizing" a fetch) means
+**cryptographic attestation, not legal notarization**. No authority certifies that
+the *content is true* — only that a specific identity attested to *observing* it.
+"Notary" is the component name; it corroborates an observation, it does not
+certify facts.
+
 The optional notary fetches user-supplied URLs from Inverba-operated
 infrastructure, so it is an SSRF target. The code-level vectors are closed:
 address validation resolves the hostname and rejects any resolved

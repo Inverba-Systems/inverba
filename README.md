@@ -84,7 +84,9 @@ on us.
   `inverba solo "https://api.example.com/v1/price"` captures and signs the raw
   response bytes (the `content_type` is signed too).
 - **Verify offline** — check any record with no account, no network, no trust in
-  Inverba. Verification is always free and always will be.
+  Inverba. Verification is always free and always will be. (Offline verification
+  establishes cryptographic *validity* — the signature and content check out;
+  confirming *whose* key signed it needs an independently obtained, trusted keyring.)
 - **Use any scraper** — pluggable backends; layer Inverba on your existing pipeline.
 - **Change detection** — prove whether a page changed between two fetches.
 - **Corpus manifests** — bundle many signed records into one signed, verifiable
@@ -117,6 +119,29 @@ proof is independently verifiable offline.
   not exact time.
 
 If a claim isn't in that first list, Inverba doesn't make it.
+
+## Evidence grades
+
+Not all provenance is equally strong. Inverba's records climb a ladder, and every
+rung maps to something the shipped code already does — say which rung you're
+standing on:
+
+1. **UNSIGNED** — raw fetched bytes, no signature. Proves nothing on its own.
+2. **SELF-ATTESTED** — signed by a key you don't (yet) trust. Proves *someone*
+   attested to this exact content/URL/time; not *who*.
+3. **KEY-VERIFIED** — signature valid *and* the content matches the signed hash
+   (`inverba verify --content`). Proves the record genuinely describes this data.
+   Most flows land here.
+4. **TRUSTED IDENTITY** — the signing key is vetted through a keyring/lifecycle
+   (compromise windows honored). Proves a *known, non-revoked* identity made the
+   attestation — needs a keyring you obtained independently.
+5. **CORROBORATED** — independent workers observed the same content
+   (`corroborations`). Proves agreement across observers, not one party's word.
+6. **TEMPORALLY ANCHORED** — an RFC 3161 timestamp binds the record to a time
+   authority. Proves existence *at or before* T (an upper bound), not exact time.
+
+Higher rungs don't replace lower ones; they add independent parties. The core is
+free through every rung it supports.
 
 ## Install
 
@@ -154,6 +179,15 @@ sign, verify, prove your own data, offline, self-hosted — will never be paywal
 
 If you want the commercial details, see [inverba.dev](https://inverba.dev). If you
 just want to prove your web data, you already have everything you need right here.
+
+## Reproduce the verification
+
+Independent reproduction of the verification tool is the whole point — so please
+check it yourself. [`DOD_RUN_REPORT.md`](DOD_RUN_REPORT.md) records a timed, fresh-
+environment run (install → sign → offline verify → agent handoff, with tamper- and
+replay-rejection). Run the same steps on your machine and
+[open an issue](https://github.com/Inverba-Systems/inverba/issues) with your timing
+and result — matching numbers from a stranger's box are worth more than ours.
 
 ## License
 
