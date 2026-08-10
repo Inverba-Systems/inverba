@@ -80,6 +80,9 @@ on us.
 ## What you get
 
 - **Sign any fetch** — produce a signed `ProvenanceRecord` for what a URL returned.
+  Works on any HTTP response, not just HTML pages — a JSON API signs just as well:
+  `inverba solo "https://api.example.com/v1/price"` captures and signs the raw
+  response bytes (the `content_type` is signed too).
 - **Verify offline** — check any record with no account, no network, no trust in
   Inverba. Verification is always free and always will be.
 - **Use any scraper** — pluggable backends; layer Inverba on your existing pipeline.
