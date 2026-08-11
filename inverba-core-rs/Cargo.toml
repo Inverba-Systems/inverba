@@ -1,0 +1,21 @@
+[package]
+name = "inverba-core-rs"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Reference implementation of the Inverba Record Format v1 (IRF/1): deterministic CBOR, RFC 6962 Merkle trees, domain-separated COSE_Sign preimages, and fail-closed verification. Trust-critical core: network-free, key-free, #![forbid(unsafe_code)]."
+authors = ["Harrington Crest Holdings LLC"]
+repository = "https://github.com/Inverba-Systems/inverba"
+keywords = ["provenance", "cose", "cbor", "merkle", "verification"]
+categories = ["cryptography"]
+
+[lib]
+name = "inverba_core"
+path = "src/lib.rs"
+
+[dependencies]
+sha2 = "0.10"
+
+[[example]]
+name = "gen_vectors"
+path = "examples/gen_vectors.rs"

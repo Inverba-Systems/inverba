@@ -20,3 +20,17 @@ jobs:
         run: pytest inverba_core/tests -v
       - name: Smoke test the CLI
         run: inverba demo
+
+  reference-impl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test the IRF/1 reference crate
+        run: cargo test --manifest-path inverba-core-rs/Cargo.toml
+      - name: Reference crate regenerates the normative vectors byte-for-byte
+        run: |
+          cargo run --quiet --manifest-path inverba-core-rs/Cargo.toml --example gen_vectors > /tmp/gen_vectors.json
+          diff /tmp/gen_vectors.json spec/vectors.json
+      - name: Independent Python verifier agrees
+        run: python3 spec/reference_check.py spec/vectors.json

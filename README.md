@@ -189,6 +189,19 @@ replay-rejection). Run the same steps on your machine and
 [open an issue](https://github.com/Inverba-Systems/inverba/issues) with your timing
 and result — matching numbers from a stranger's box are worth more than ours.
 
+## Record format (IRF/1)
+
+The wire format is specified independently of any one implementation in
+[`spec/SPEC-IRF-v1.md`](spec/SPEC-IRF-v1.md) — `COSE_Sign` envelopes, deterministic
+CBOR, RFC 6962 Merkle trees — with normative test vectors (`spec/vectors.json`). A
+Rust reference implementation ([`inverba-core-rs/`](inverba-core-rs/)) regenerates
+those vectors byte-for-byte, and an independent Python verifier
+([`spec/reference_check.py`](spec/reference_check.py)) reproduces them. Two
+implementations agreeing is what makes a format real rather than merely described.
+
+> IRF/1 is the **target** wire format. The Python package ships a simpler
+> canonical-JSON record today; the spec's status note says so plainly.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
