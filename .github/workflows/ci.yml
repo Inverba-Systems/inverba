@@ -7,8 +7,8 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -24,7 +24,7 @@ jobs:
   reference-impl:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - name: Test the IRF/1 reference crate
         run: cargo test --manifest-path inverba-core-rs/Cargo.toml
@@ -34,3 +34,29 @@ jobs:
           diff /tmp/gen_vectors.json spec/vectors.json
       - name: Independent Python verifier agrees
         run: python3 spec/reference_check.py spec/vectors.json
+
+  js-verifier:
+    # Proves "checkable in any language": the dependency-free JS verifier
+    # (Node standard library only) agrees with the Python/Rust implementations
+    # on a committed record fixture -- accepting a valid record and rejecting
+    # both a tampered signature and mismatched content.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Node version
+        run: node --version
+      - name: Accepts a valid record
+        run: node verifiers/verify.mjs verifiers/testdata/record.json verifiers/testdata/content.bin
+      - name: Rejects a tampered signature
+        run: |
+          if node verifiers/verify.mjs verifiers/testdata/record-badsig.json verifiers/testdata/content.bin; then
+            echo "ERROR: tampered-signature record was accepted"; exit 1
+          fi
+          echo "correctly rejected tampered signature"
+      - name: Rejects mismatched content
+        run: |
+          printf 'not the signed bytes' > wrong.bin
+          if node verifiers/verify.mjs verifiers/testdata/record.json wrong.bin; then
+            echo "ERROR: mismatched content was accepted"; exit 1
+          fi
+          echo "correctly rejected content mismatch"
