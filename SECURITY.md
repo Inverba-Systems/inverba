@@ -13,6 +13,15 @@ allow a reasonable window to ship a fix before public disclosure. This is an
 early, solo-built project; security reports are taken seriously and credited if
 you'd like.
 
+## Adversarial battery
+
+An adversarial test battery runs a suite of attacks against everything described
+below — signature malleability, replay, canonicalization, key-lifecycle, notary
+SSRF, Merkle, and temporal abuse — and reports each result, including the
+boundaries that land on an already-documented limit. See
+**[SECURITY-BATTERY.md](SECURITY-BATTERY.md)**. It is reproducible:
+`pytest inverba_core/tests/test_adversarial_battery.py`.
+
 ## What provenance guarantees (strong)
 
 Ed25519 signatures over `(url, content_hash, fetched_at)` are
