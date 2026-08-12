@@ -1,0 +1,12 @@
+{
+  "url": "https://example.com/",
+  "content_hash": "9aeeeac7629c8f1dcf3e1c1630d60abb8e5d3ce1a6ac97470f35e62cea251bd6",
+  "fetched_at": 1700000000.0,
+  "worker_public_key": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8",
+  "signature": "aeb100bae5567b786ddc44e0e1e28b2c07b7a378a4a7ecc2d521d1050d616e2f22d5630b0c10e75a6ff9e0df516f5e32a896701b40bfc12fbcaf6603b75e730c",
+  "fetched_by": "native",
+  "status_code": 200,
+  "final_url": "",
+  "content_type": "text/html",
+  "corroborations": []
+}

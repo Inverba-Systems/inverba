@@ -12,6 +12,8 @@ build/
 *.db
 record.json
 *.content
+# ...but the committed verifier test fixture is intentional (throwaway key).
+!verifiers/testdata/record.json
 .incoming/
 .adv/
 .adv2/
