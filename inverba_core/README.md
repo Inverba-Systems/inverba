@@ -1,8 +1,8 @@
 # inverba-core
 
-Sovereign, verifiable, swarm-distributable web extraction engine.
+Verifiable, offline-checkable provenance records for web data.
 
-This is the **Phase 0 standalone core** — everything here runs on one
+This is the **standalone core** — everything here runs on one
 machine with zero mandatory cloud dependency. The swarm/trust layer
 (`inverba-swarm`) and the hosted commercial product (Inverba Cloud) are
 separate, optional add-ons described in the architecture spec; nothing in

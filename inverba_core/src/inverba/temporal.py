@@ -76,7 +76,7 @@ def digest_for_manifest_root(merkle_root_hex: str) -> bytes:
 # TSA client (injectable so tests stay offline)
 # --------------------------------------------------------------------------
 
-# A well-known free RFC 3161 TSA. Swappable: point at your own for sovereignty.
+# A well-known free RFC 3161 TSA. Swappable: point at your own to avoid a third-party dependency.
 DEFAULT_TSA_URL = "http://timestamp.digicert.com"
 
 

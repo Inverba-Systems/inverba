@@ -2,11 +2,32 @@
 
 from __future__ import annotations
 
+import json
 import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
+
+# A legitimate record is hashes + small metadata; anything larger is not a record.
+# Bounding input size before parsing also bounds nesting, so a hostile deep-JSON
+# payload returns a verdict (a ValueError the verify paths handle) rather than
+# crashing the verifier with an uncaught RecursionError.
+MAX_RECORD_JSON_BYTES = 1 << 20   # 1 MiB
+
+
+def load_record_json(text: str) -> Any:
+    """Parse untrusted record JSON, fail-closed: reject oversized input and treat a
+    RecursionError (pathologically deep JSON) as a parse failure, not a crash."""
+    if not isinstance(text, str):
+        raise ValueError("Input must be JSON text.")
+    if len(text) > MAX_RECORD_JSON_BYTES:
+        raise ValueError(
+            f"Input exceeds the maximum verification size ({MAX_RECORD_JSON_BYTES >> 20} MiB).")
+    try:
+        return json.loads(text)
+    except RecursionError as e:
+        raise ValueError("Input JSON nesting exceeds the maximum verification depth.") from e
 
 
 class FetchMethod(str, Enum):
@@ -112,6 +133,28 @@ class ProvenanceRecord:
             "content_type": self.content_type,
             "corroborations": [c.to_dict() for c in self.corroborations],
         }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any], _depth: int = 0) -> "ProvenanceRecord":
+        """Load a URI-observation record from a JSON dict, fail-closed.
+
+        A URI record signs an un-tagged payload. A record bearing a ``claim_type``
+        discriminator is a different, typed record and MUST NOT be verified by the
+        URI path: if the URI verifier quietly ignored an unknown ``claim_type``
+        field, that un-tagged default would be a one-way door by which a typed
+        record could be presented as a fetch. Reject it explicitly here rather than
+        relying on the dataclass happening to raise on the unexpected field -- a
+        lenient loader added later would silently reopen the door.
+        """
+        if _depth > 64:                       # cap corroboration nesting -> no RecursionError DoS
+            raise ValueError("Record nesting exceeds the maximum verification depth.")
+        if "claim_type" in d:
+            raise ValueError(
+                "Record carries an unexpected 'claim_type' field and is not a valid "
+                "URI provenance record.")
+        d = dict(d)
+        d["corroborations"] = [cls.from_dict(c, _depth + 1) for c in d.get("corroborations", [])]
+        return cls(**d)
 
 
 @dataclass

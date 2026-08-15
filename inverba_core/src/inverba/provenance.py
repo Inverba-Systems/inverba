@@ -8,7 +8,7 @@ plus `cryptography` -- a third party never needs Inverba installed to
 check a claim, only this module's `verify_record` (or an equivalent
 Ed25519 implementation in any language).
 
-Multi-worker corroboration (Phase 2 / inverba-swarm) attaches additional
+Multi-worker corroboration (via inverba-swarm) attaches additional
 independently-signed records for the same URL to `corroborations`. This
 module only handles the single-worker case; the swarm package builds on
 top of it without changing the record format.

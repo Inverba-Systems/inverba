@@ -78,9 +78,9 @@ def _provenance_to_json(pr: Optional[ProvenanceRecord]) -> Optional[str]:
 def _provenance_from_json(s: Optional[str]) -> Optional[ProvenanceRecord]:
     if s is None:
         return None
-    d = json.loads(s)
-    d["corroborations"] = [ProvenanceRecord(**c) for c in d.get("corroborations", [])]
-    return ProvenanceRecord(**d)
+    # Route through the fail-closed loader (rejects records bearing an unexpected
+    # claim_type, caps corroboration depth) rather than a second lenient ProvenanceRecord(**d).
+    return ProvenanceRecord.from_dict(json.loads(s))
 
 
 class JobStore:

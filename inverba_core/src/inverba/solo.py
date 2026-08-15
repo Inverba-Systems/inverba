@@ -8,11 +8,11 @@ clean path that gives a single-worker user the full value without ever having to
 think about swarms.
 
 The ONE feature that inherently needs multiple observers -- corroboration -- is
-provided via the optional Inverba notary (a second independent vantage). Because
-Inverba is sovereignty-first, we do NOT silently phone the notary: on first run
-we ASK the user whether to enable notary-backed corroboration, and remember
-their choice. A fully-local user can decline and stay 100% offline; a user who
-wants stronger evidence can opt in.
+provided via the optional Inverba notary (a second independent vantage). The
+notary is never contacted silently: on first run the user is asked whether to
+enable notary-backed corroboration, and the choice is remembered. A fully-local
+user can decline and stay 100% offline; a user who wants stronger evidence can
+opt in.
 
 This module is the solo workflow API; the CLI wraps it.
 """
@@ -33,7 +33,7 @@ from .semantic import SemanticNormalizer
 
 
 # Honors INVERBA_HOME (or legacy TESSERA_HOME) and falls back to an existing
-# pre-rename ~/.tessera -- see homedir.py.
+# legacy ~/.tessera -- see homedir.py.
 DEFAULT_CONFIG_DIR = inverba_home()
 CONFIG_PATH = DEFAULT_CONFIG_DIR / "solo_config.json"
 

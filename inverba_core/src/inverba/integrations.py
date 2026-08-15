@@ -70,10 +70,13 @@ def verify_document_metadata(metadata: dict, content: Optional[bytes] = None) ->
         return {"verdict": "no_record", "trusted": False,
                 "reasons": ["chunk carries no Inverba provenance record"]}
 
-    data = json.loads(raw) if isinstance(raw, str) else raw
-    data = dict(data)
-    data["corroborations"] = [ProvenanceRecord(**c) for c in data.get("corroborations", [])]
-    record = ProvenanceRecord(**data)
+    from .models import load_record_json
+    try:
+        data = load_record_json(raw) if isinstance(raw, str) else raw   # size-bounded, fail-closed
+        record = ProvenanceRecord.from_dict(data)   # fail-closed on unexpected record types
+    except (ValueError, TypeError) as e:
+        return {"verdict": "no_record", "trusted": False,
+                "reasons": [f"invalid record: {e}"]}
     return verify_handoff(record, claimed_content=content).to_dict()
 
 

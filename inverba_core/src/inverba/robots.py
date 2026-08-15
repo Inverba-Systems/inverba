@@ -1,5 +1,5 @@
 """
-Ethical-scraping attestation (Phase D).
+Ethical-scraping attestation.
 
 Signed, verifiable proof that at fetch time the crawler checked and respected
 robots.txt. Small feature, real enterprise value: "prove your crawler
@@ -8,7 +8,7 @@ litigation grows. Because Inverba already signs provenance, adding a
 robots-compliance assertion to the record makes good behavior *provable*, not
 just claimed.
 
-Slots into the C2PA assertion set (Phase C) as an additional assertion, and
+Slots into the C2PA assertion set as an additional assertion, and
 stands alone as a checkable field on the provenance side.
 
 HONEST SCOPE: this attests that Inverba fetched and evaluated robots.txt for

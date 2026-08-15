@@ -1,5 +1,5 @@
 """
-Change detection (Phase A).
+Change detection.
 
 The shippable wedge: scrape a URL now, compare against the last signed
 observation, and produce a ChangeReport backed by TWO provenance records
@@ -132,14 +132,13 @@ class ChangeStore:
     @staticmethod
     def _row_to_obs(row: sqlite3.Row) -> Observation:
         d = json.loads(row["provenance_json"])
-        d["corroborations"] = [ProvenanceRecord(**c) for c in d.get("corroborations", [])]
         return Observation(
             url_canonical=row["url_canonical"],
             content_hash=row["content_hash"],
             raw_hash=row["raw_hash"],
             text=row["text"],
             observed_at=row["observed_at"],
-            provenance=ProvenanceRecord(**d),
+            provenance=ProvenanceRecord.from_dict(d),
         )
 
 
@@ -230,11 +229,7 @@ def verify_change_report(report: ChangeReport) -> dict:
     """
     result = {"before_valid": None, "after_valid": None}
     if report.before_provenance:
-        d = dict(report.before_provenance)
-        d["corroborations"] = [ProvenanceRecord(**c) for c in d.get("corroborations", [])]
-        result["before_valid"] = verify_record(ProvenanceRecord(**d))
+        result["before_valid"] = verify_record(ProvenanceRecord.from_dict(dict(report.before_provenance)))
     if report.after_provenance:
-        d = dict(report.after_provenance)
-        d["corroborations"] = [ProvenanceRecord(**c) for c in d.get("corroborations", [])]
-        result["after_valid"] = verify_record(ProvenanceRecord(**d))
+        result["after_valid"] = verify_record(ProvenanceRecord.from_dict(dict(report.after_provenance)))
     return result

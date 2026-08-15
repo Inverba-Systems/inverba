@@ -62,3 +62,14 @@ class InMemorySeenStore:
         # Keep the FIRST-seen time so the TTL measures age from first sighting,
         # not from the most recent replay attempt.
         self._seen.setdefault(key, self._clock())
+
+    def record_if_new(self, key: str) -> bool:
+        """Test-and-set: record `key` and return True iff it was NOT already present.
+        A single call, so a caller need not do a separate seen()+record() with a race
+        window between them. A shared backend (e.g. Redis
+        SETNX) implements this atomically; this in-memory version is single-op but, like
+        the rest of the store, not thread-safe -- documented on the class."""
+        if self.seen(key):
+            return False
+        self.record(key)
+        return True

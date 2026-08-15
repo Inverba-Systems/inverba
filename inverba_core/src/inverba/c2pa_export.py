@@ -1,11 +1,11 @@
 """
-C2PA-compatible provenance export (Phase C).
+C2PA-compatible provenance export.
 
-POSITIONING (from the adversarial review): this is a DERIVED, OPTIONAL view.
+POSITIONING: this is a DERIVED, OPTIONAL view.
 Ed25519 provenance records remain Inverba's source of truth. A C2PA manifest
 is a downstream export for users who need to slot into the C2PA / Content
 Credentials compliance ecosystem (EU AI Act Article 50, ISO/IEC 22144). The
-sovereign path (self-signed Ed25519, zero certificate authorities) and the
+self-signed path (Ed25519, no certificate authorities) and the
 compliance path (C2PA sidecar, optionally CA-signed) are BOTH available and
 the user chooses — they are not forced to adopt the CA trust model to use
 Inverba.

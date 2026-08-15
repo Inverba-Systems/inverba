@@ -2,9 +2,9 @@
 Inverba Core
 ============
 
-Sovereign, verifiable, swarm-distributable web extraction engine.
+Verifiable, offline-checkable provenance records for web data.
 
-Phase 0 scope (standalone core):
+Standalone core scope:
     - fetch:       async HTTP fetch engine, browser fallback optional/pluggable
     - extract:     markdown fast path + schema-driven structured extraction
     - provenance:  content-hash + Ed25519 signed attestation of every fetch

@@ -1,7 +1,7 @@
 """
 Resolution of the Inverba home directory (config/keys/db), with a graceful
-one-time fallback for installs created under the project's former name
-(Tessera, renamed 2026-07-25 due to a PyPI name collision).
+one-time fallback for installs created under this package's former name
+(``tessera``).
 
 Resolution order for the home directory:
 

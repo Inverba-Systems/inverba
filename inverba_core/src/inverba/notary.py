@@ -1,7 +1,7 @@
 """
 Notary worker (corroboration cold-start).
 
-The chicken-and-egg problem from the audit: trust-scored corroboration needs a
+The chicken-and-egg problem: trust-scored corroboration needs a
 SWARM, but a solo first customer has one worker. The differentiator that makes
 Inverba unique is exactly the one that doesn't work at N=1.
 

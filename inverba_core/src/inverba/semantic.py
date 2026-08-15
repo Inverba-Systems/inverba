@@ -1,7 +1,7 @@
 """
 Semantic content normalization and spectrum diffing.
 
-WHY THIS EXISTS (from the adversarial review):
+WHY THIS EXISTS:
 Two honest workers fetching the same URL rarely get identical bytes --
 personalization, A/B tests, timestamps, ad tokens, CSRF nonces, rotating
 build hashes, and analytics all mutate the raw response. A naive

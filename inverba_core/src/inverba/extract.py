@@ -12,7 +12,7 @@ Structured path (optional, requires a model backend):
     commercial add-on and plugs into the same `ModelBackend` protocol.
 
 The ModelBackend protocol is intentionally minimal so a local Ollama
-model, a hosted API, or (in Phase 1) an ensemble wrapper can all satisfy
+model, a hosted API, or a future ensemble wrapper can all satisfy
 it without extract.py needing to change.
 """
 
@@ -115,6 +115,6 @@ class ExtractionPipeline:
             structured=structured,
             schema_used=schema,
             model_used=model_used,
-            # confidence is left None in Phase 0 -- populated once the
-            # multi-model consensus engine (Phase 1) is wired in.
+            # confidence is left None here -- populated once the
+            # multi-model consensus engine is wired in.
         )

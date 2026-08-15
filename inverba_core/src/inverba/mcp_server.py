@@ -1,5 +1,5 @@
 """
-MCP server (Phase 1).
+MCP server.
 
 Exposes Inverba's core capabilities as MCP tools so any MCP client (Claude
 Desktop, Claude Code, agent frameworks) can drive it:
@@ -91,9 +91,12 @@ def build_server(key_path: Optional[Path] = None):
         """Verify a Inverba provenance record. Returns validity and, if
         corroborations are present, whether independent workers agreed on
         the content."""
-        data = json.loads(record_json)
-        data["corroborations"] = [ProvenanceRecord(**c) for c in data.get("corroborations", [])]
-        record = ProvenanceRecord(**data)
+        from .models import load_record_json
+        try:
+            data = load_record_json(record_json)   # size-bounded, fail-closed
+            record = ProvenanceRecord.from_dict(data)   # fail-closed on unexpected record types
+        except (ValueError, TypeError) as e:
+            return json.dumps({"valid": False, "error": f"invalid record: {e}"}, indent=2)
         return json.dumps(verify_with_corroborations(record), indent=2)
 
     return mcp

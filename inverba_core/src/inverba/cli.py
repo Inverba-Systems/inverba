@@ -27,7 +27,7 @@ from .models import Job, JobStatus
 
 # Everything lives under ~/.inverba by default, so the CLI works from any
 # directory with zero setup -- no stray inverba.db files in the cwd.
-# A pre-rename ~/.tessera home (and its tessera.db) is honored transparently
+# A legacy ~/.tessera home (and its tessera.db) is honored transparently
 # via homedir resolution -- see homedir.py.
 INVERBA_HOME = inverba_home()
 DEFAULT_DB = str(default_db_path(INVERBA_HOME))
@@ -63,7 +63,7 @@ def _force_utf8_output() -> None:
 @click.group()
 @click.version_option(package_name="inverba-core", message="Inverba %(version)s")
 def main():
-    """Inverba -- sovereign, verifiable web extraction.
+    """Inverba -- verifiable, offline-checkable web-data provenance.
 
     \b
     Quick start:
@@ -147,17 +147,20 @@ def verify(record_path, content, json_out):
     standard Ed25519. Nothing from Inverba is required or trusted.
     """
     import hashlib
-    from .models import ProvenanceRecord
+    from .models import ProvenanceRecord, load_record_json
 
-    data = json.loads(Path(record_path).read_text())
-    # Accept both record shapes: `solo`/`verify` write a FLAT record, while
-    # `scrape --json-out` wraps it as {job_id, url, markdown, provenance: {...}}.
-    # Unwrap the nested record so the documented `scrape --json-out > f; verify f`
-    # path works verbatim.
-    if "signature" not in data and isinstance(data.get("provenance"), dict):
-        data = data["provenance"]
-    data["corroborations"] = [ProvenanceRecord(**c) for c in data.get("corroborations", [])]
-    record = ProvenanceRecord(**data)
+    try:
+        data = load_record_json(Path(record_path).read_text())   # size-bounded, fail-closed
+        # Accept both record shapes: `solo`/`verify` write a FLAT record, while
+        # `scrape --json-out` wraps it as {job_id, url, markdown, provenance: {...}}.
+        # Unwrap the nested record so the documented `scrape --json-out > f; verify f`
+        # path works verbatim.
+        if "signature" not in data and isinstance(data.get("provenance"), dict):
+            data = data["provenance"]
+        record = ProvenanceRecord.from_dict(data)   # fail-closed on unexpected record types
+    except (ValueError, TypeError) as e:
+        click.echo(f"INVALID: {e}", err=True)
+        sys.exit(1)
     result = verify_with_corroborations(record)
 
     # If a content file wasn't passed, look for the sibling written by `solo`.
