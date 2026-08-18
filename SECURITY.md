@@ -70,7 +70,7 @@ registering many workers (a Sybil attack). Worker identity is just an
 Ed25519 key; keys are free.
 
 Inverba's answer is **deliberately not** proof-of-work or stake (those
-conflict with the sovereign/local-first ethos). Instead, Sybil resistance
+conflict with the self-hosted, local-first design). Instead, Sybil resistance
 is an **operator policy** decision at the registry boundary:
 - In a **private swarm** (the common case — your own workers), you
   control who registers. Sybil is a non-issue; you admit workers you run.

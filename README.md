@@ -1,5 +1,7 @@
 # Inverba
 
+[![CI](https://github.com/Inverba-Systems/inverba/actions/workflows/ci.yml/badge.svg)](https://github.com/Inverba-Systems/inverba/actions/workflows/ci.yml)
+
 **Use any scraper. Prove exactly what it got — cryptographically, verifiable offline, with zero trust in us.**
 
 Every web scraper hands you data. None of them let you *prove* what the page
@@ -11,7 +13,7 @@ without a server.
 It's not a scraper. It layers on top of whatever scraper you already use.
 
 > ⚠️ **Status: early, in active development.** The cryptographic core is solid and
-> heavily tested (241 tests in this open core), but this is a young project. APIs may change. See
+> heavily tested (326 tests in this open core), but this is a young project. APIs may change. See
 > [What Inverba does and doesn't prove](#what-inverba-does-and-doesnt-prove) before
 > relying on it for anything that matters.
 

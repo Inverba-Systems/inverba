@@ -286,7 +286,7 @@ additional entry in the signatures array with its own `kid`.
 
 **IRF makes no consensus claim and provides no Sybil resistance.** It cannot: the
 format has no way to establish that two witness keys are operated by independent
-parties. Independence is a *deployment* property, and in a self-hosted sovereign
+parties. Independence is a *deployment* property, and in a self-hosted
 product it is exactly the property that cannot be assumed.
 
 The model is therefore Certificate Transparency's, not a Byzantine agreement
@@ -448,7 +448,7 @@ Stated here so they are not mistaken for oversights:
 
 - **No encryption.** IRF signs; it does not conceal. Confidentiality is a
   transport and storage concern.
-- **No key distribution or PKI.** A self-hosted sovereign deployment has no
+- **No key distribution or PKI.** A self-hosted deployment has no
   trusted CA by construction. Trust roots are self-anchored and distributed out
   of band, which makes the anchor key and its external corroboration the entire
   trust foundation. This is a real limitation, not a feature.

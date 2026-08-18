@@ -3,7 +3,7 @@ Tests for RFC 3161 temporal proof (temporal.py).
 
 TSA calls are mocked: a self-signed test TSA mints valid tokens offline, so the
 storage + verification logic is exercised without a network. Live-TSA
-verification against a real server is a founder-run item (see TEMPORAL_PROOF.md).
+verification against a real server is a manual step (see TEMPORAL_PROOF.md).
 """
 import hashlib
 from datetime import datetime, timezone
